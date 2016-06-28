@@ -17,7 +17,7 @@ def read_file(filename):
 
 	return lines
 
-def reachdef_process_quad_list(line):
+def process_quad_list(line):
 	array = []
 	while line.find('<') > 0:
 		quad = line[line.find("<"):line.find(">")+1]
@@ -33,7 +33,7 @@ def reachdef_process_quad_list(line):
 	return result
 
 
-def reachdef_process_lines(lines):
+def process_lines(lines):
 	quads = []
 	index = 0
 
@@ -41,8 +41,8 @@ def reachdef_process_lines(lines):
 		line = lines[index]
 
 		name = line[line.find("[", 20):line.find("]")+1]
-		inMap = reachdef_process_quad_list(lines[index+1])
-		outMap = reachdef_process_quad_list(lines[index+2])
+		inMap = process_quad_list(lines[index+1])
+		outMap = process_quad_list(lines[index+2])
 
 		quads.append(name + "|" + inMap + "|" + outMap)
 
@@ -52,9 +52,9 @@ def reachdef_process_lines(lines):
 	return quads
 	
 
-def reachdef_comparison(lines_base, lines_log):
-	quads_base = reachdef_process_lines(lines_base)
-	quads_log = reachdef_process_lines(lines_log)
+def compare(lines_base, lines_log):
+	quads_base = process_lines(lines_base)
+	quads_log = process_lines(lines_log)
 
 	if len(quads_base) == len(quads_log):
 		index = 0
@@ -86,6 +86,6 @@ def main():
 	lines_base = read_file(sys.argv[1])
 	lines_log = read_file(sys.argv[2])
 
-	reachdef_comparison(lines_base, lines_log)
+	compare(lines_base, lines_log)
 
 main()
