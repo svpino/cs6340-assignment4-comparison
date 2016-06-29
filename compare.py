@@ -19,11 +19,16 @@ def read_file(filename):
 
 def process_quad_list(line):
 	array = []
-	while line.find('<') > 0:
-		quad = line[line.find("<"):line.find(">")+1]
-		array.append(quad)
-		line = line.replace(quad, '')
-		
+
+	if line.find('<') > 0:
+		while line.find('<') > 0:
+			quad = line[line.find("<"):line.find(">")+1]
+			array.append(quad)
+			line = line.replace(quad, '')
+	else:
+		line = line.replace('IN', '').replace('OUT', '').replace(':', '')
+		array = line.split()
+			
 	array.sort()
 
 	result = ""
@@ -63,7 +68,7 @@ def compare(lines_base, lines_log):
 			ql = quads_log[index]
 
 			if qb != ql:
-				print "Results do not match. Expected " + qb + "] but found [" + ql + "]"			
+				print "Results do not match. Expected " + qb + " but found " + ql			
 				break	
 
 			index = index + 1
